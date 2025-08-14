@@ -1,0 +1,39 @@
+FROM python:3.11-slim
+
+# Installer les dépendances système
+RUN apt-get update && apt-get install -y \
+    gcc \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Créer un utilisateur non-root
+RUN groupadd -r django && useradd -r -g django django
+
+# Définir le répertoire de travail
+WORKDIR /app
+
+# Copier les fichiers de dépendances
+COPY requirements.txt .
+
+# Installer les dépendances Python globalement
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copier tout le projet Django depuis la racine
+COPY . .
+
+# Créer le répertoire media et donner les permissions
+RUN mkdir -p /app/media && chown -R django:django /app
+
+# Changer vers l'utilisateur non-root
+USER django
+
+# Exposer le port
+EXPOSE 8000
+
+# Variables d'environnement pour le développement
+ENV PYTHONPATH=/app
+ENV DJANGO_SETTINGS_MODULE=ecommerce.settings
+ENV DEBUG=True
+
+# Commande de développement avec hot-reload
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"] 

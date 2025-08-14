@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation de commande</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #007bff;
+            margin: 0;
+        }
+        .order-details {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .order-number {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .items-table th,
+        .items-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .items-table th {
+            background-color: #007bff;
+            color: white;
+        }
+        .total {
+            font-size: 1.3em;
+            font-weight: bold;
+            text-align: right;
+            color: #007bff;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #007bff;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .customer-info {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎉 Confirmation de commande</h1>
+            <p>Merci pour votre commande !</p>
+        </div>
+
+        <div class="order-details">
+            <p class="order-number">Commande #{{ order.id }}</p>
+            <p><strong>Date :</strong> {{ order.created_at|date:"d/m/Y H:i" }}</p>
+            <p><strong>Statut :</strong> {{ order.get_status_display }}</p>
+        </div>
+
+        <div class="customer-info">
+            <h3>Informations de livraison</h3>
+            <p><strong>Nom :</strong> {{ order.customer_name }}</p>
+            <p><strong>Email :</strong> {{ order.customer_email }}</p>
+            {% if order.customer_phone %}
+            <p><strong>Téléphone :</strong> {{ order.customer_phone }}</p>
+            {% endif %}
+            <p><strong>Adresse :</strong> {{ order.customer_address }}</p>
+        </div>
+
+        <h3>Détails de votre commande</h3>
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                    <th>Prix unitaire</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.price }} FCFA</td>
+                    <td>{{ item.total }} FCFA</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="total">
+            <strong>Total de la commande : {{ total }} FCFA</strong>
+        </div>
+
+        <div class="footer">
+            <p>Nous vous remercions pour votre confiance !</p>
+            <p>Votre commande sera traitée dans les plus brefs délais.</p>
+            <p>Pour toute question, n'hésitez pas à nous contacter.</p>
+            <p><strong>Boutique E-commerce</strong></p>
+        </div>
+    </div>
+</body>
+</html> 
