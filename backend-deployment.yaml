@@ -20,11 +20,23 @@ spec:
           ports:
             - containerPort: 8000
           env:
+            env:
+            - name: DATABASE_HOST
+              value: postgres
+            - name: DATABASE_PORT
+              value: "5432"
+            - name: DATABASE_NAME
+              value: ecommerce
+            - name: DATABASE_USER
+              value: admin
+            - name: DATABASE_PASSWORD
+              value: admin123
+
             # Variables d'environnement si nécessaires pour Django
-            - name: DJANGO_SETTINGS_MODULE
-              value: ecommerce_project.settings
-            - name: DATABASE_URL
-              value: postgres://user:password@postgres:5432/dbname
+             #- name: DJANGO_SETTINGS_MODULE
+             #  value: ecommerce_project.settings
+             #- name: DATABASE_URL
+              # value: postgres://user:password@postgres:5432/dbname
 ---
 apiVersion: v1
 kind: Service
