@@ -5,8 +5,10 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Copier les fichiers
-COPY ./backend /app/backend
-COPY ./frontend /app/frontend
+COPY ./backend /app/
+COPY ./frontend /app/
+#COPY ./backend /app/backend
+#COPY ./frontend /app/frontend
 COPY requirements.txt .
 
 # Installer les dépendances
@@ -16,4 +18,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8000 3001
 
 # Lancer à la fois Django et Flask (ex. pour test)
-CMD ["sh", "-c", "python frontend/app.py & python backend/manage.py runserver 0.0.0.0:8000"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# CMD ["sh", "-c", "python frontend/app.py & python backend/manage.py runserver 0.0.0.0:8000"]
