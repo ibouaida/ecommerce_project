@@ -13,7 +13,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Exposer les ports (Django = 8000, Flask = 3000)
-EXPOSE 8000 3000
+EXPOSE 8000 3001
 
 # Lancer à la fois Django et Flask (ex. pour test)
 CMD ["sh", "-c", "python frontend/app.py & python backend/manage.py runserver 0.0.0.0:8000"]
